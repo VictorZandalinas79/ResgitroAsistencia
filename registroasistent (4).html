@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPORTING DE CASTELLÓ - Registro de Asistencia</title>
+    <style>
+        /* Estilos generales */
+        body {
+            background: linear-gradient(45deg, red, blue);
+            color: white;
+            text-align: center;
+            padding-bottom: 20px;
+            font-size: 16px;
+            /* Tamaño de fuente predeterminado para dispositivos móviles */
+        }
+
+        /* Estilos para tabletas */
+        @media (min-width: 768px) {
+            body {
+                font-size: 18px;
+                /* Aumentar el tamaño de fuente para tabletas */
+            }
+        }
+
+        /* Estilos para dispositivos móviles */
+        @media (max-width: 480px) {
+            body {
+                font-size: 14px;
+                /* Reducir el tamaño de fuente para dispositivos móviles */
+            }
+        }
+
+        /* Estilo para la tabla de registros */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid white;
+            text-align: left;
+        }
+
+        /* Estilo para el título de la tabla */
+        h2 {
+            margin-top: 20px;
+        }
+
+        /* Estilo para la imagen del título */
+        .imagen-titulo {
+            max-width: 100px;
+            height: auto;
+            float: left;
+            margin-right: 10px;
+        }
+
+        /* Estilo para el botón "Registrar Asistencia" */
+        #registrarAsistenciaBtn {
+            font-size: 24px;
+            padding: 10px 20px;
+            background-color: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+            float: right;
+            margin-top: 10px;
+        }
+
+        /* Estilo para el campo desplegable "Nombre" */
+        select#nombre {
+            font-size: 16px;
+            padding: 5px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        /* Estilo para el campo desplegable "Equipo" */
+        select#equipo {
+            font-size: 16px;
+            padding: 5px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        /* Estilo para el campo de contraseña y botones relacionados */
+        #password,
+        #confirmarBtn,
+        #guardarBtn,
+        #exportarBtn,
+        #limpiarBtn {
+            margin-top: 10px;
+        }
+
+        /* Estilo para el botón "Seleccionar Archivo" */
+        #importarBtn {
+            margin-top: 20px;
+        }
+    </style>
+    <!-- Agregar estas líneas para incluir las bibliotecas SheetJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+</head>
+
+<body>
+    <!-- Imagen en la esquina superior izquierda -->
+    <img class="imagen-titulo" src="https://sportingdecastellocom.files.wordpress.com/2023/09/logo.png?w=402&amp;h=258" alt="Logo">
+
+    <!-- Genera el código QR -->
+    <div id="qrcode"></div>
+
+    <!-- Formulario de Registro -->
+    <form id="registroForm">
+        <label for="nombre">Nombre y Apellidos:</label>
+        <br>
+            <option value="" disabled="" selected="">&lt;Elige uno&gt;</option>
+            <!-- Las opciones se cargarán dinámicamente desde el JSON -->
+        </select>
+        <br>
+
+        <label for="equipo">Equipo:</label>
+        <select id="equipo" name="equipo" required="">
+            <option value="" disabled="" selected="">&lt;Elige uno&gt;</option>
+            <option value="Amateur">Amateur</option>
+            <option value="Juvenil A">Juvenil A</option>
+            <option value="Juvenil B">Juvenil B</option>
+            <option value="Juvenil C">Juvenil C</option>
+            <option value="Cadete A">Cadete A</option>
+            <option value="Cadete B">Cadete B</option>
+            <option value="Infantil A">Infantil A</option>
+            <option value="Infantil B">Infantil B</option>
+            <option value="Alevin A">Alevin A</option>
+            <option value="Alevin B">Alevin B</option>
+            <option value="Alevin C">Alevin C</option>
+            <option value="Benjamin A">Benjamin A</option>
+            <option value="Benjamin B">Benjamin B</option>
+            <option value="Prebenjamin A">Prebenjamin A</option>
+            <option value="Prebenjamin B">Prebenjamin B</option>
+            <option value="Escoleta">Escoleta</option>
+            <option value="Fisio">Fisio</option>
+            <option value="Coordinador">Coordinador</option>
+            <option value="Entrenador Porteros">Entrenador Porteros</option>
+            <option value="Empleado del club">Empleado del club</option>
+            <!-- Agrega todas las opciones aquí -->
+        </select><br>
+
+        <!-- Botón para registrar asistencia -->
+        <button type="button" id="registrarAsistenciaBtn">Registrar Asistencia</button>
+    </form>
+
+    <!-- Título de la tabla -->
+    <h2>Firma de Asistencia Entrenamiento</h2>
+
+    <!-- Tabla para mostrar registros -->
+    <table id="registros">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Equipo</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Registros actuales... -->
+        </tbody>
+    </table>
+
+    <!-- Campo de contraseña -->
+    <label for="password">Contraseña:</label>
+    <input type="password" id="password" name="password" required="">
+
+    <!-- Botón para confirmar contraseña antes de limpiar -->
+    <button type="button" id="confirmarBtn">Confirmar</button>
+
+    <!-- Botón para guardar en CSV -->
+    <button type="button" id="guardarBtn">Guardar en CSV</button>
+
+    <!-- Botones para exportar e importar Excel -->
+    <button type="button" id="exportarBtn">Exportar Modelo</button>
+
+    <!-- Texto "SPORTING DE CASTELLÓ" en letras grandes -->
+    <h1>SPORTING DE CASTELLÓ</h1>
+
+    <!-- Botón "Limpiar" en la parte inferior -->
+    <button type="button" id="limpiarBtn">Limpiar</button>
+
+    <!-- Botón "Seleccionar Archivo" al final -->
+    <input type="file" id="importarBtn" accept=".xlsx">
+
+    <script>
+       
+
+        // Arreglo para almacenar los registros
+        let registros = [];
+        // Arreglo para almacenar los nombres importados
+        let nombresImportados = [];
+
+        // Función para obtener la fecha y hora actual
+        function obtenerFechaHoraActual() {
+            const ahora = new Date();
+            const fecha = ahora.toISOString().slice(0, 10); // Formato "YYYY-MM-DD"
+            const hora = ahora.getHours().toString().padStart(2, '0');
+            const minutos = ahora.getMinutes().toString().padStart(2, '0');
+            const segundos = ahora.getSeconds().toString().padStart(2, '0');
+            return { fecha, hora: `${hora}:${minutos}:${segundos}` };
+        }
+
+        // Cargar registros almacenados al cargar la página
+        if (localStorage.getItem("registros")) {
+            registros = JSON.parse(localStorage.getItem("registros"));
+            mostrarRegistros();
+        }
+
+        // Cargar nombres importados al cargar la página
+        if (localStorage.getItem("nombresImportados")) {
+            nombresImportados = JSON.parse(localStorage.getItem("nombresImportados"));
+            cargarNombresEnDesplegable();
+        }
+
+        // Función para mostrar registros en la tabla
+        function mostrarRegistros() {
+            const registrosTabla = document.getElementById("registros").querySelector("tbody");
+            registrosTabla.innerHTML = "";
+
+            // Invierte el orden de los registros antes de agregarlos a la tabla
+            registros.slice().reverse().forEach(function (registro) {
+                const fila = document.createElement("tr");
+                fila.innerHTML = `<td>${registro[0]}</td><td>${registro[1]}</td><td>${registro[2]}</td><td>${registro[3]}</td>`;
+                registrosTabla.appendChild(fila);
+            });
+        }
+
+        // Función para mostrar nombres en el desplegable
+        function cargarNombresEnDesplegable() {
+            const desplegable = document.getElementById("nombre");
+            // Limpiar opciones actuales
+            desplegable.innerHTML = '<option value="" disabled="" selected="">&lt;Elige uno&gt;</option>';
+            // Agregar nombres importados al desplegable
+            nombresImportados.forEach(nombre => {
+                const opcion = document.createElement("option");
+                opcion.value = nombre;
+                opcion.text = nombre;
+                desplegable.add(opcion);
+            });
+        }
+
+        // Función para confirmar la contraseña antes de limpiar registros
+        document.getElementById("confirmarBtn").addEventListener("click", function () {
+            const contraseña = document.getElementById("password").value;
+
+            if (contraseña === "Sporting123") {
+                const confirmacion = window.confirm("¿Deseas limpiar todos los registros?");
+
+                if (confirmacion) {
+                    registros = [];
+                    localStorage.removeItem("registros");
+                    mostrarRegistros(); // Limpiar la tabla de registros
+                }
+            } else {
+                alert("Contraseña incorrecta. Inténtalo de nuevo.");
+            }
+        });
+
+        // Función para registrar la asistencia
+        document.getElementById("registrarAsistenciaBtn").addEventListener("click", function () {
+            const nombre = document.getElementById("nombre").value;
+            const equipo = document.getElementById("equipo").value;
+
+            if (nombre.trim() === "") {
+                alert("Por favor, ingresa tu nombre y apellidos.");
+                return;
+            }
+
+            if (equipo === "") {
+                alert("Por favor, elige un equipo o cargo válido.");
+                return; // Detener el proceso si no se ha seleccionado un equipo válido
+            }
+
+            const {
+                fecha,
+                hora
+            } = obtenerFechaHoraActual();
+
+            registros.push([nombre, equipo, fecha, hora]);
+            mostrarRegistros();
+            localStorage.setItem("registros", JSON.stringify(registros));
+            document.getElementById("nombre").value = ""; // Limpiar el campo de nombre
+            document.getElementById("equipo").value = ""; // Restablecer el campo de equipo
+
+            // Verificar si se alcanzó la cantidad de registros para descargar automáticamente
+            if (registros.length % 12 === 0) {
+                descargarCSV();
+            }
+        });
+
+        // Función para guardar en CSV
+        document.getElementById("guardarBtn").addEventListener("click", descargarCSV);
+
+        // Función para exportar el modelo de Excel
+        document.getElementById("exportarBtn").addEventListener("click", function () {
+            const modelo = [
+                ["Nombre", "Apellidos"]
+            ];
+            const modeloWS = XLSX.utils.aoa_to_sheet(modelo);
+            const modeloWB = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(modeloWB, modeloWS, "Modelo");
+            XLSX.writeFile(modeloWB, "modelo_nombres_apellidos.xlsx");
+        });
+
+        // Función para abrir la opción de elegir el archivo Excel
+        document.getElementById("importarBtn").addEventListener("change", function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, {
+                        type: "array"
+                    });
+                    const nuevosNombres = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
+                    // Actualizar el desplegable con los nuevos nombres
+                    actualizarDesplegable(nuevosNombres);
+                };
+                reader.readAsArrayBuffer(file);
+            }
+        });
+
+        // Función para actualizar el desplegable con nuevos nombres
+        function actualizarDesplegable(nuevosNombres) {
+            nombresImportados = nuevosNombres.map(nombre => `${nombre.Nombre} ${nombre.Apellidos}`);
+            localStorage.setItem("nombresImportados", JSON.stringify(nombresImportados));
+            cargarNombresEnDesplegable();
+        }
+
+        // Función para descargar el archivo CSV
+        function descargarCSV() {
+            const {
+                fecha,
+                hora
+            } = obtenerFechaHoraActual();
+            const nombreArchivo = `Registro_${hora}_${fecha}.csv`;
+
+            const csvData = registros.map(row => [row[0], row[1], row[2], row[3]].join(","));
+            csvData.unshift("Nombre,Equipo,Fecha,Hora");
+
+            const csvContent = csvData.join("\n");
+
+            const blob = new Blob([csvContent], {
+                type: "text/csv;charset=utf-8;"
+            });
+            const url = URL.createObjectURL(blob);
+            const enlace = document.createElement("a");
+            enlace.href = url;
+            enlace.setAttribute("download", nombreArchivo);
+            enlace.click();
+        }
+        fetch('https://victorzandalinas79.github.io/ResgitroAsistencia/personalsporting.json')
+    .then(response => response.json())
+    .then(data => {
+      const selectElement = document.getElementById('nombre');
+      data.forEach(item => {
+        const option = document.createElement('option');
+        option.value = item.Nombre; // Asegúrate de que 'Nombre' corresponda al campo en tu JSON
+        option.textContent = item.Nombre; // Igual que arriba
+        selectElement.appendChild(option);
+      });
+    })
+    .catch(error => console.error('Error:', error));
+    </script>
+    
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body></html>
+
+
+
+
+
+
+
+
+
+
+
+
+
