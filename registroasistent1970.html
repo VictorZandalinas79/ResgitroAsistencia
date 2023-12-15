@@ -115,12 +115,13 @@
     <!-- Formulario de Registro -->
     <form id="registroForm">
         <label for="nombre">Nombre y Apellidos:</label>
-        <br>
-            <option value="" disabled="" selected="">&lt;Elige uno&gt;</option>
-            <option value="Iker&nbsp; Barbera Luque">Iker&nbsp; Barbera Luque</option>
-            <!-- Agrega todas las opciones aquí -->
-        </select>
-        <br>
+<br>
+<select id="nombre" name="nombre">
+    <option value="" disabled="" selected="">&lt;Elige uno&gt;</option>
+    <!-- Las opciones se cargarán dinámicamente desde el JSON -->
+</select>
+<br>
+
 
         <label for="equipo">Equipo:</label>
         <select id="equipo" name="equipo" required="">
@@ -376,6 +377,21 @@
 </body>
 
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
