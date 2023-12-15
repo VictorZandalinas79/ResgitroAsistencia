@@ -115,13 +115,13 @@
     <!-- Formulario de Registro -->
     <form id="registroForm">
         <label for="nombre">Nombre y Apellidos:</label>
-<br>
-<select id="nombre" name="nombre">
-    <option value="" disabled="" selected="">&lt;Elige uno&gt;</option>
-    <!-- Las opciones se cargarán dinámicamente desde el JSON -->
-</select>
-<br>
-
+        <br>
+        <select id="nombre" name="nombre" required="" onkeypress="return event.keyCode != 13;">
+            <option value="" disabled="" selected="">&lt;Elige uno&gt;</option>
+            <option value="Iker&nbsp; Barbera Luque">Iker&nbsp; Barbera Luque</option>
+            <!-- Agrega todas las opciones aquí -->
+        </select>
+        <br>
 
         <label for="equipo">Equipo:</label>
         <select id="equipo" name="equipo" required="">
@@ -358,26 +358,29 @@
             enlace.setAttribute("download", nombreArchivo);
             enlace.click();
         }
-        <script>
-            fetch('https://victorzandalinas79.github.io/ResgitroAsistencia/personalsporting.json')
-    .then(response => response.json())
-    .then(data => {
-        const selectElement = document.getElementById('nombre');
-        data.forEach(item => {
-            const option = document.createElement('option');
-            option.value = `${item.Nombre} ${item.Apellidos}`; // Combinar Nombre y Apellidos
-            option.textContent = `${item.Nombre} ${item.Apellidos}`; // Mostrar Nombre y Apellidos
-            selectElement.appendChild(option);
-        });
-    })
-    .catch(error => console.error('Error:', error));
-
-</script>
-
     </script>
 </body>
 
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body></html>
+
+
 
 
 
