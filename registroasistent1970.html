@@ -115,11 +115,13 @@
     <!-- Formulario de Registro -->
     <form id="registroForm">
         <label for="nombre">Nombre y Apellidos:</label>
-        <br>
-            <option value="" disabled="" selected="">&lt;Elige uno&gt;</option>
-            <!-- Las opciones se cargarán dinámicamente desde el JSON -->
-        </select>
-        <br>
+<br>
+<!-- Comienzo del elemento select para nombres -->
+<select id="nombre" name="nombre" required="" onkeypress="return event.keyCode != 13;">
+    <option value="" disabled="" selected="">&lt;Elige uno&gt;</option>
+    <!-- Las opciones se cargarán dinámicamente desde el JSON -->
+</select>
+<br>
 <select id="nombre" name="nombre" required="" onkeypress="return event.keyCode != 13;">
     <option value="" disabled="" selected="">&lt;Elige uno&gt;</option>
         <label for="equipo">Equipo:</label>
