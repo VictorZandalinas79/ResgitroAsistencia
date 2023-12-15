@@ -112,11 +112,10 @@
     <!-- Genera el código QR -->
     <div id="qrcode"></div>
 
-  <!-- Formulario de Registro -->
+    <!-- Formulario de Registro -->
     <form id="registroForm">
         <label for="nombre">Nombre y Apellidos:</label>
         <br>
-        <select id="nombre" name="nombre" required="" onkeypress="return event.keyCode != 13;">
             <option value="" disabled="" selected="">&lt;Elige uno&gt;</option>
             <option value="Iker&nbsp; Barbera Luque">Iker&nbsp; Barbera Luque</option>
             <!-- Agrega todas las opciones aquí -->
@@ -148,7 +147,6 @@
             <option value="Empleado del club">Empleado del club</option>
             <!-- Agrega todas las opciones aquí -->
         </select><br>
-
 
         <!-- Botón para registrar asistencia -->
         <button type="button" id="registrarAsistenciaBtn">Registrar Asistencia</button>
@@ -195,8 +193,6 @@
     <input type="file" id="importarBtn" accept=".xlsx">
 
     <script>
-       
-
         // Arreglo para almacenar los registros
         let registros = [];
         // Arreglo para almacenar los nombres importados
@@ -361,7 +357,8 @@
             enlace.setAttribute("download", nombreArchivo);
             enlace.click();
         }
-        fetch('https://victorzandalinas79.github.io/ResgitroAsistencia/personalsporting.json')
+        <script>
+  fetch('https://victorzandalinas79.github.io/ResgitroAsistencia/personalsporting.json')
     .then(response => response.json())
     .then(data => {
       const selectElement = document.getElementById('nombre');
@@ -373,28 +370,12 @@
       });
     })
     .catch(error => console.error('Error:', error));
+</script>
+
     </script>
-    
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</body></html>
 
 
 
