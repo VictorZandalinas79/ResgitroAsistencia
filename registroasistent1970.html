@@ -116,10 +116,8 @@
     <form id="registroForm">
         <label for="nombre">Nombre y Apellidos:</label>
         <br>
-        <select id="nombre" name="nombre" required="" onkeypress="return event.keyCode != 13;">
             <option value="" disabled="" selected="">&lt;Elige uno&gt;</option>
-            <option value="Iker&nbsp; Barbera Luque">Iker&nbsp; Barbera Luque</option>
-            <!-- Agrega todas las opciones aquí -->
+            <!-- Las opciones se cargarán dinámicamente desde el JSON -->
         </select>
         <br>
 
@@ -194,6 +192,8 @@
     <input type="file" id="importarBtn" accept=".xlsx">
 
     <script>
+       
+
         // Arreglo para almacenar los registros
         let registros = [];
         // Arreglo para almacenar los nombres importados
@@ -358,7 +358,20 @@
             enlace.setAttribute("download", nombreArchivo);
             enlace.click();
         }
+        fetch('https://victorzandalinas79.github.io/ResgitroAsistencia/personalsporting.json')
+    .then(response => response.json())
+    .then(data => {
+      const selectElement = document.getElementById('nombre');
+      data.forEach(item => {
+        const option = document.createElement('option');
+        option.value = item.Nombre; // Asegúrate de que 'Nombre' corresponda al campo en tu JSON
+        option.textContent = item.Nombre; // Igual que arriba
+        selectElement.appendChild(option);
+      });
+    })
+    .catch(error => console.error('Error:', error));
     </script>
+    
 </body>
 
 </html>
@@ -379,7 +392,6 @@
 
 
 </body></html>
-
 
 
 
