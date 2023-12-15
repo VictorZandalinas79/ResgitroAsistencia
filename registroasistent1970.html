@@ -112,18 +112,17 @@
     <!-- Genera el código QR -->
     <div id="qrcode"></div>
 
-    <!-- Formulario de Registro -->
+  <!-- Formulario de Registro -->
     <form id="registroForm">
         <label for="nombre">Nombre y Apellidos:</label>
-<br>
-<!-- Comienzo del elemento select para nombres -->
-<select id="nombre" name="nombre" required="" onkeypress="return event.keyCode != 13;">
-    <option value="" disabled="" selected="">&lt;Elige uno&gt;</option>
-    <!-- Las opciones se cargarán dinámicamente desde el JSON -->
-</select>
-<br>
-<select id="nombre" name="nombre" required="" onkeypress="return event.keyCode != 13;">
-    <option value="" disabled="" selected="">&lt;Elige uno&gt;</option>
+        <br>
+        <select id="nombre" name="nombre" required="" onkeypress="return event.keyCode != 13;">
+            <option value="" disabled="" selected="">&lt;Elige uno&gt;</option>
+            <option value="Iker&nbsp; Barbera Luque">Iker&nbsp; Barbera Luque</option>
+            <!-- Agrega todas las opciones aquí -->
+        </select>
+        <br>
+
         <label for="equipo">Equipo:</label>
         <select id="equipo" name="equipo" required="">
             <option value="" disabled="" selected="">&lt;Elige uno&gt;</option>
@@ -149,6 +148,7 @@
             <option value="Empleado del club">Empleado del club</option>
             <!-- Agrega todas las opciones aquí -->
         </select><br>
+
 
         <!-- Botón para registrar asistencia -->
         <button type="button" id="registrarAsistenciaBtn">Registrar Asistencia</button>
